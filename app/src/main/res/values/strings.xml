@@ -4,5 +4,7 @@
     <string name="home_fragment">Home</string>
     <string name="events_fragment">Events</string>
     <string name="help_fragment">Help</string>
+    <string name="naam">naam</string>
+    <string name="afstand">afstand</string>
 
 </resources>
