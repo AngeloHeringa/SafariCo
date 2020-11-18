@@ -3,55 +3,58 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/AngeloHeringa/SafariCo">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">SafariCo</h3>
+  <h1 align="center">SafariCo</h1>
 
   <p align="center">
-    Een project van studenten van de HHS
+    Het Challenge project van een groep van 6 studenten van de HHS in Delft.
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+        <br />
+    <a href="https://github.com/AngeloHeringa/SafariCo/tree/Develop"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    
   </p>
-</p>
 
 
 
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
+## Inhoudsopgave
 
-* [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
+* [Het project](#het-project)
+  * [Het doel](#het-doel)
+  * [Tools](#tools)
+* [Instructies](#instructies)
+  * [Benodigheden](#benodigheden)
+  * [Instalatie](#instalatie)
+* [gebruik](#gebruik)
 * [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
+* [Bronvermelding](#Bronvermelding)
 
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## Het project
+Dit project is opgezet door 6 studenten voor de Challenge opdracht van de Haagse Hoge School in Delft
+
+Onze challenge die we hebben bedacht is zorgen dat we d.m.v. een systeem dat hardware en software bevat ervoor te zorgen dat we bijdragen aan SDG-15. We willen dit realiseren d.m.v. trackers die zijn gekoppeld aan een database en vervolgens op een gebruikers applicatie visueel worden weergegeven samen met SDG-15 gerelateerde informatie.
+
+Met deze informatie hopen wij ervoor te zorgen dat de gebruiker geïnformeerd wordt over SDG-15 en mogelijk dat we ze ook activeren om zich hiervoor in te gaan zetten. We willen namelijk informatie gebruiken die de urgentie van SDG-15 accentueert maar ook informatie gebruiken over hoe en waar je kan helpen. 
+Deze informatie wordt lokaal opgeslagen in de applicatie en dynamisch weergegeven vergeleken met de informatie die wordt verstuurd naar en opgeslagen in de database, namelijk het diersoort, ID-nummer en geolocatie. De informatie wordt verstuurd via een script dat constant uitgevoerd wordt op onze trackers en dus constant de geolocatie bijwerkt en ook verteld bij welke diersoort en uniek dier dit hoort. De informatie die we lokaal opslaan in de app die halen we handmatig van externe bronnen af en laten we gebaseerd op de reden(en) die de diersoort bedreigt maakt zien. 
+
+We willen naast de SDG-15 informatie ook extra functionaliteit toevoegen om de applicatie meer aantrekkelijk te maken voor bezoekers. Dit willen we bereiken door naast de SDG-informatie ook een evenementen schema weergeven voor voedertijden en andere dierenshows. Ook willen we dat duidelijk wordt gemaakt wanneer je in de buurt komt van een dier d.m.v. een soort pop-up notificatie zodat de gebruiker mogelijk meer informatie te zien krijgt en zodat de gebruiker gemakkelijker de applicatie kan gebruiken.
+
+<br />
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
+### Het Doel
+Het doel van deze applicatie is dus om bij te dragen aan [SDG-15](https://sdgs.un.org/goals/goal15). Het tegengaan van verlies van biodiversiteit en leefgebieden voor wilde dieren.
+[![Product Name Screen Shot][product-screenshot]](https://sdgs.un.org/goals/goal15)
 
 
-
-
-
-### Built With
+### Tools
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [Android Studio](https://developer.android.com/studio)
 
@@ -59,112 +62,50 @@ This section should list any major frameworks that you built your project using.
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+## Instructies
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Instructies toevoegen over hoe je de app download
 
-### Prerequisites
+### Benodigheden
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-```sh
-npm install npm@latest -g
-```
+Benodigde software toevoegen
 
-### Installation
+### Instalatie
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-```sh
-git clone https://github.com/your_username_/Project-Name.git
-```
-3. Install NPM packages
-```sh
-npm install
-```
-4. Enter your API in `config.js`
-```JS
-const API_KEY = 'ENTER YOUR API';
-```
+1. instructies toevoegen
 
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Gebruik
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
+Instructies voor gebruik van de app toevoegen
 _For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
 
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+### Contributors
+mail nog toevoegen?
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+- Angelo Herringa
+- Martijn Gorissen
+- John Bermudez Ospina
+- Mike Rietveldt
+- Dzemal Velic
+- Jeevan Hoogenhout
+
+Begeleid door:
+- Adri Pronk
+
+
+Project link: [https://github.com/AngeloHeringa/SafariCo](https://github.com/AngeloHeringa/SafariCo)
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
+## Bronvermelding
 
 
 
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=flat-square
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=flat-square
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=flat-square
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=flat-square
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=flat-square
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
