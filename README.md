@@ -4,7 +4,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/AngeloHeringa/SafariCo">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/SafariCo%20logo%20v1.png" alt="Logo" width="80" height="80">
   </a>
 
   <h1 align="center">SafariCo</h1>
@@ -51,7 +51,7 @@ We willen naast de SDG-15 informatie ook extra functionaliteit toevoegen om de a
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 ### Het Doel
 Het doel van deze applicatie is dus om bij te dragen aan [SDG-15](https://sdgs.un.org/goals/goal15). Het tegengaan van verlies van biodiversiteit en leefgebieden voor wilde dieren.
-[![Product Name Screen Shot][product-screenshot]](https://sdgs.un.org/goals/goal15)
+ <p> <img src="images/SDG-15%20green.png" width="200px" height="200px"></p>
 
 
 ### Tools
