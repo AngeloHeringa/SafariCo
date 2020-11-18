@@ -25,6 +25,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="142dp"
+            android:layout_height="133dp"
+            android:layout_marginStart="134dp"
+            android:layout_marginLeft="134dp"
+            android:layout_marginTop="156dp"
+            android:layout_marginEnd="135dp"
+            android:layout_marginRight="135dp"
+            android:layout_marginBottom="226dp"
+            android:text="Android studio is fucking onoverzichtelijk"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
