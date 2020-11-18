@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SafariCo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_fragment">Home</string>
+    <string name="events_fragment">Events</string>
+    <string name="help_fragment">Help</string>
+
+</resources>
