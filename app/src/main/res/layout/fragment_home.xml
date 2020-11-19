@@ -20,36 +20,42 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="16dp"
             android:text="@string/home_fragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="vertical"
-            android:padding="16dp"
-            >
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:textSize="25sp"
-                android:layout_marginBottom="16dp"
                 android:id="@+id/textNaam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/naam" />
+                android:layout_marginBottom="16dp"
+                android:text="@string/naam"
+                android:textColor="@color/text"
+                android:textSize="25sp" />
 
             <TextView
-                android:textSize="25sp"
-                android:layout_marginBottom="16dp"
                 android:id="@+id/textAfstand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/afstand" />
+                android:layout_marginBottom="16dp"
+                android:text="@string/afstand"
+                android:textSize="25sp"
+                android:textColor="@color/text"
+            />
 
             <Button
-                android:textSize="25sp"
-                android:id="@+id/button"
+                android:id="@+id/popupButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Meer info" />
+                android:text="Meer info"
+                android:textColor="@color/text"
+                android:textSize="25sp"
+                android:background="@color/colorPrimaryDark"
+            />
         </LinearLayout>
 
 
