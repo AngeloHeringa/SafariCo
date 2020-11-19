@@ -1,12 +1,6 @@
 package com.example.safarico;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Dialog;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-
-import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;

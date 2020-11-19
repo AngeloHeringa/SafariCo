@@ -9,12 +9,12 @@
         android:id="@+id/dierContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
         android:padding="16dp"
@@ -32,28 +32,21 @@
 
         <TextView
             android:id="@+id/textNaamDialog"
-            android:layout_width="315dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/naam"
             android:textColor="@color/text"
             android:textSize="25sp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="lege text"
-                android:textColor="@color/text"
-                android:textSize="25sp" />
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="lege text"
+            android:textColor="@color/text"
+            android:textSize="25sp" />
 
     </LinearLayout>
 
