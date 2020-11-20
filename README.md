@@ -91,7 +91,7 @@ mail nog toevoegen?
 
 - Angelo Heringa 19168780
 - Martijn Gorissen 19099371
-- John Bermudez Ospina
+- John Bermudez Ospina 20085095
 - Mike Rietveldt
 - Dzemal Velic
 - Jeevan Hoogenhout
