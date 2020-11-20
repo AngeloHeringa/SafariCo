@@ -90,7 +90,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 mail nog toevoegen?
 
 - Angelo Heringa 19168780
-- Martijn Gorissen
+- Martijn Gorissen 19099371
 - John Bermudez Ospina
 - Mike Rietveldt
 - Dzemal Velic
