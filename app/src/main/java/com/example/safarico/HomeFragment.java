@@ -1,6 +1,15 @@
 package com.example.safarico;
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +20,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class HomeFragment extends Fragment {
+import org.jetbrains.annotations.NotNull;
+
+public class HomeFragment extends Fragment{
+    //popup
     private Button popupButton;
     private Dialog dialog;
+
+    //Location
+    LocationManager locationManager;
+    LocationListener locationListener;
+    Location userLocation;
+
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -28,7 +47,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void showDialog(View v, Dier dier){
+    public void showDialog(View v, Dier dier) {
         dialog = new Dialog(v.getContext());
         dialog.setContentView(R.layout.popup_window);
         //size fix voor dialog
@@ -52,24 +71,80 @@ public class HomeFragment extends Fragment {
         dialog.show();
     }
 
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        //kaart
+
         //dier voorbeeld
         Dier dier = new Dier("olifant", 52.142845, 4.441977);
-        //diernaam vak
+        //diernaam textView
         TextView textNaam = view.findViewById(R.id.textNaam);
         textNaam.setText(dier.getNaam());
-        //popup button
-        popupButton =(Button) view.findViewById(R.id.popupButton);
-        popupButton.setOnClickListener(new View.OnClickListener() {
+        // afstand textView
+        TextView textAfstand = view.findViewById(R.id.textAfstand);
+        //getLocation
+        locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
             @Override
-            public void onClick(View v) {
-                showDialog(v, dier);
+            public void onLocationChanged(@NotNull Location location) {
+//                Toast.makeText(getActivity(), "mobile location is in listener"+location,Toast.LENGTH_SHORT);
+                userLocation = location;
             }
-        });
+        };
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] {
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            },100);
+        }
+        getLocation();
+
+        //calculate distance tussen userLocation en dier
+        if (calculateDistance(dier, userLocation)!=0){
+            textAfstand.setText(String.format("%.2f", calculateDistance(dier, userLocation))+" km");
+        }else{
+            textAfstand.setText("Locatie niet beschikbaar");
+        }
+
+        //popup button
+        popupButton = view.findViewById(R.id.popupButton);
+        popupButton.setOnClickListener(v -> showDialog(v, dier));
+
         return view;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLocation() {
+        try {
+            locationManager = (LocationManager) getParentFragment().getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
+            userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//            Toast.makeText(getActivity(), ""+userLocation.getLongitude()+", "+userLocation.getLatitude(), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private double calculateDistance (Dier dier, Location userLocation) {
+        try {
+            double afstand = (Math.sin(Math.toRadians(dier.getLatitude())) *
+                Math.sin(Math.toRadians(userLocation.getLatitude())) +
+                Math.cos(Math.toRadians(dier.getLatitude())) *
+                Math.cos(Math.toRadians(userLocation.getLatitude())) *
+                Math.cos(Math.toRadians(dier.getLongitude() - userLocation.getLongitude())));
+
+            return Double.valueOf((Math.toDegrees(Math.acos(afstand))) * 69.09 * 1.6093);
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
