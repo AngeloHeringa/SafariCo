@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -41,7 +44,7 @@ public class HomeFragment extends Fragment{
 
     //map
     Dier dier;
-    public static Dier[] dieren = {new Dier("olifant", 52.142845, 4.441977, false), new Dier("aap", 51.142845, 4.501977, false)};
+    public static Dier[] dieren = {new Dier("olifant", 52.142845, 4.441977, false), new Dier("aap", 52.242845, 4.501977, false)};
     public double[] userLatLong;
 //    mapsFragment;
 
@@ -60,7 +63,7 @@ public class HomeFragment extends Fragment{
         super.onCreate(savedInstanceState);
     }
 
-    public void showDialog(View v, Dier dier) {
+    public void showDialog(View v, Dier dier, Resources res) {
         dialog = new Dialog(v.getContext());
         dialog.setContentView(R.layout.popup_window);
         //size fix voor dialog
@@ -73,6 +76,7 @@ public class HomeFragment extends Fragment{
         final ImageView image = dialog.findViewById(R.id.dierFoto);
         final TextView text = dialog.findViewById(R.id.textNaamDialog);
         text.setText(dier.getNaam());
+        image.setImageDrawable(ResourcesCompat.getDrawable(res, res.getIdentifier(dier.getNaam(), "drawable", getActivity().getPackageName()), res.newTheme()));
         Button sluitButton = dialog.findViewById(R.id.sluitButton);
         sluitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +87,6 @@ public class HomeFragment extends Fragment{
         dialog.getWindow().setAttributes(lp);
         dialog.show();
     }
-
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,14 +120,14 @@ public class HomeFragment extends Fragment{
 
         //calculate distance tussen userLocation en dier
         if (calculateDistance(dier, userLocation)!=0){
-            textAfstand.setText(String.format("%.2f", calculateDistance(dier, userLocation))+" km");
+            textAfstand.setText("Afstand: "+String.format("%.2f", calculateDistance(dier, userLocation))+" km");
         }else{
             textAfstand.setText("Locatie niet beschikbaar");
         }
 
         //popup button
         popupButton = view.findViewById(R.id.popupButton);
-        popupButton.setOnClickListener(v -> showDialog(v, dier));
+        popupButton.setOnClickListener(v -> showDialog(v, dier, getResources()));
 
         //map
         Handler handler = new Handler();
@@ -163,8 +166,8 @@ public class HomeFragment extends Fragment{
     public void updateSelected(){
         for (int i=0; i<dieren.length; i++){
             if (dieren[i].isSelected()){
-                textNaam.setText(dieren[i].getNaam());
-                textAfstand.setText(String.format("%.2f",calculateDistance(dieren[i], userLocation))+" km");
+                textNaam.setText(("Diersoort: "+dieren[i].getNaam()));
+                textAfstand.setText("Afstand: "+String.format("%.2f",calculateDistance(dieren[i], userLocation))+" km");
                 dier=dieren[i];
             }
         }

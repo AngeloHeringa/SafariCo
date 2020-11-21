@@ -14,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -34,15 +37,16 @@ public class MapsFragment extends Fragment {
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
-
+            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
             if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String[] {
                         Manifest.permission.ACCESS_FINE_LOCATION
                 },100);
             }
             googleMap.setMyLocationEnabled(true);
-            googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(dieren[0].getLatitude(), dieren[0].getLongitude())).zoom(10.0f).build();
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             for (Dier dier : dieren) {
                 LatLng dierMarker = new LatLng(dier.getLatitude(), dier.getLongitude());
@@ -56,6 +60,7 @@ public class MapsFragment extends Fragment {
                     for (int i=0; i<dieren.length; i++) {
                         if (selected.equals(dieren[i].getNaam())) {
                             dieren[i].setSelected(true);
+
                             //call updateSelected() van parent
                         }else{
                             dieren[i].setSelected(false);
@@ -95,4 +100,6 @@ public class MapsFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
     }
+
+
 }
