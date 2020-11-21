@@ -11,6 +11,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,11 @@ import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 
 public class HomeFragment extends Fragment{
+
+    //info
+    TextView textNaam;
+    TextView textAfstand;
+
     //popup
     private Button popupButton;
     private Dialog dialog;
@@ -31,6 +38,12 @@ public class HomeFragment extends Fragment{
     LocationManager locationManager;
     LocationListener locationListener;
     Location userLocation;
+
+    //map
+    Dier dier;
+    public static Dier[] dieren = {new Dier("olifant", 52.142845, 4.441977, false), new Dier("aap", 51.142845, 4.501977, false)};
+    public double[] userLatLong;
+//    mapsFragment;
 
 
 
@@ -80,12 +93,12 @@ public class HomeFragment extends Fragment{
         //kaart
 
         //dier voorbeeld
-        Dier dier = new Dier("olifant", 52.142845, 4.441977);
+        dier = dieren[0];
         //diernaam textView
-        TextView textNaam = view.findViewById(R.id.textNaam);
+        textNaam = view.findViewById(R.id.textNaam);
         textNaam.setText(dier.getNaam());
         // afstand textView
-        TextView textAfstand = view.findViewById(R.id.textAfstand);
+        textAfstand = view.findViewById(R.id.textAfstand);
         //getLocation
         locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -113,26 +126,51 @@ public class HomeFragment extends Fragment{
         popupButton = view.findViewById(R.id.popupButton);
         popupButton.setOnClickListener(v -> showDialog(v, dier));
 
+        //map
+        Handler handler = new Handler();
+        Runnable update = new Runnable(){
+            @Override
+            public void run() {
+                updateSelected();
+                handler.postDelayed(this, 100);
+            }
+        };
+        update.run();
+
         return view;
     }
 
+    //user permission
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    //location
     @SuppressLint("MissingPermission")
     private void getLocation() {
         try {
             locationManager = (LocationManager) getParentFragment().getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
             userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//            userLatLong = new double[] {userLocation.getLatitude(), userLocation.getLongitude()};
 //            Toast.makeText(getActivity(), ""+userLocation.getLongitude()+", "+userLocation.getLatitude(), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void updateSelected(){
+        for (int i=0; i<dieren.length; i++){
+            if (dieren[i].isSelected()){
+                textNaam.setText(dieren[i].getNaam());
+                textAfstand.setText(String.format("%.2f",calculateDistance(dieren[i], userLocation))+" km");
+                dier=dieren[i];
+            }
+        }
+    }
+
+    //calculate distance
     private double calculateDistance (Dier dier, Location userLocation) {
         try {
             double afstand = (Math.sin(Math.toRadians(dier.getLatitude())) *
@@ -141,7 +179,7 @@ public class HomeFragment extends Fragment{
                 Math.cos(Math.toRadians(userLocation.getLatitude())) *
                 Math.cos(Math.toRadians(dier.getLongitude() - userLocation.getLongitude())));
 
-            return Double.valueOf((Math.toDegrees(Math.acos(afstand))) * 69.09 * 1.6093);
+            return ((Math.toDegrees(Math.acos(afstand)) * 69.09 * 1.6093));
         }catch (Exception e){
             e.printStackTrace();
             return 0;

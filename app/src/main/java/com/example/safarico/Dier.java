@@ -4,11 +4,21 @@ public class Dier {
     private String naam;
     private double latitude;
     private double longitude;
+    private boolean selected;
 
-    public Dier(String naam, double latitude, double longitude) {
+    public Dier(String naam, double latitude, double longitude, boolean selected) {
         this.naam = naam;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public String getNaam() {

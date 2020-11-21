@@ -1,6 +1,8 @@
 package com.example.safarico;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -12,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);

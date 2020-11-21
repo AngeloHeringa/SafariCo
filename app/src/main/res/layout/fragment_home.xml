@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,6 +50,15 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
+        <fragment
+            android:id="@+id/map"
+            android:name="com.example.safarico.MapsFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
