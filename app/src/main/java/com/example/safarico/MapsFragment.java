@@ -7,21 +7,16 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -38,14 +33,14 @@ public class MapsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(getActivity(), new String[] {
+            if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(requireActivity(), new String[] {
                         Manifest.permission.ACCESS_FINE_LOCATION
                 },100);
             }
             googleMap.setMyLocationEnabled(true);
 
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(dieren[0].getLatitude(), dieren[0].getLongitude())).zoom(10.0f).build();
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(dieren[0].getLatitude(), dieren[0].getLongitude())).zoom(10.5f).build();
             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             for (Dier dier : dieren) {
@@ -57,13 +52,13 @@ public class MapsFragment extends Fragment {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     selected = marker.getTitle();
-                    for (int i=0; i<dieren.length; i++) {
-                        if (selected.equals(dieren[i].getNaam())) {
-                            dieren[i].setSelected(true);
+                    for (Dier dier : dieren) {
+                        if (selected.equals(dier.getNaam())) {
+                            dier.setSelected(true);
 
                             //call updateSelected() van parent
-                        }else{
-                            dieren[i].setSelected(false);
+                        } else {
+                            dier.setSelected(false);
                         }
                     }
                     return false;
@@ -73,22 +68,12 @@ public class MapsFragment extends Fragment {
         }
     };
 
-    public String getSelected() {
-        return selected;
-    }
-
-    public void update () {
-
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_maps, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
     @Override

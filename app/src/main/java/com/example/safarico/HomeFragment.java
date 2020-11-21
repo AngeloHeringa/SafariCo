@@ -27,6 +27,8 @@ import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class HomeFragment extends Fragment{
 
     //info
@@ -68,15 +70,15 @@ public class HomeFragment extends Fragment{
         dialog.setContentView(R.layout.popup_window);
         //size fix voor dialog
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.copyFrom(Objects.requireNonNull(dialog.getWindow()).getAttributes());
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
 
         final LinearLayout dierContainer = dialog.findViewById(R.id.dierContainer);
         final ImageView image = dialog.findViewById(R.id.dierFoto);
         final TextView text = dialog.findViewById(R.id.textNaamDialog);
-        text.setText(dier.getNaam());
-        image.setImageDrawable(ResourcesCompat.getDrawable(res, res.getIdentifier(dier.getNaam(), "drawable", getActivity().getPackageName()), res.newTheme()));
+        text.setText(("Diersoort: "+dier.getNaam()));
+        image.setImageDrawable(ResourcesCompat.getDrawable(res, res.getIdentifier(dier.getNaam(), "drawable", requireActivity().getPackageName()), res.newTheme()));
         Button sluitButton = dialog.findViewById(R.id.sluitButton);
         sluitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +101,7 @@ public class HomeFragment extends Fragment{
         dier = dieren[0];
         //diernaam textView
         textNaam = view.findViewById(R.id.textNaam);
-        textNaam.setText(dier.getNaam());
+        textNaam.setText("Diersoort: "+dier.getNaam());
         // afstand textView
         textAfstand = view.findViewById(R.id.textAfstand);
         //getLocation
@@ -111,8 +113,8 @@ public class HomeFragment extends Fragment{
                 userLocation = location;
             }
         };
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[] {
+        if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[] {
                     Manifest.permission.ACCESS_FINE_LOCATION
             },100);
         }
@@ -153,7 +155,8 @@ public class HomeFragment extends Fragment{
     @SuppressLint("MissingPermission")
     private void getLocation() {
         try {
-            locationManager = (LocationManager) getParentFragment().getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            assert getParentFragment() != null;
+            locationManager = (LocationManager) getParentFragment().requireActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
             userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 //            userLatLong = new double[] {userLocation.getLatitude(), userLocation.getLongitude()};
@@ -163,11 +166,12 @@ public class HomeFragment extends Fragment{
         }
     }
 
+    @SuppressLint("DefaultLocale")
     public void updateSelected(){
         for (int i=0; i<dieren.length; i++){
             if (dieren[i].isSelected()){
                 textNaam.setText(("Diersoort: "+dieren[i].getNaam()));
-                textAfstand.setText("Afstand: "+String.format("%.2f",calculateDistance(dieren[i], userLocation))+" km");
+                textAfstand.setText(("Afstand: "+String.format("%.2f", calculateDistance(dieren[i], userLocation))+" km"));
                 dier=dieren[i];
             }
         }
