@@ -89,9 +89,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ### Contributors
 mail nog toevoegen?
 
-- Angelo Herringa
-- Martijn Gorissen
-- John Bermudez Ospina
+- Angelo Heringa 19168780
+- Martijn Gorissen 19099371
+- John Bermudez Ospina 20085095
 - Mike Rietveldt
 - Dzemal Velic
 - Jeevan Hoogenhout
