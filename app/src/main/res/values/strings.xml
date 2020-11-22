@@ -6,5 +6,21 @@
     <string name="help_fragment">Help</string>
     <string name="naam">naam</string>
     <string name="afstand">afstand</string>
+    <string name="feiten">
+&#8226;  3 miljard mensen halen 20% van hun dierlijke eiwitten uit vis, maar slechts 10 vissoorten zorgen voor 30% van de vangst op zee. \n
+&#8226;  Meer dan 80% van de menselijke voeding bestaat uit planten en 3 gewassen - maïs, rijst en tarwe zorgen voor 60% van de wereldwijde energiebehoefte, dus elke storing of vermindering van de opbrengsten zal catastrofaal zijn. \n
+&#8226;  Een stijging van 1 procent van de opwarming van de aarde resulteert in een vermindering van 5% in de graanopbrengst, wat de voedselzekerheid van de planeet aantast en heeft verwoestende gevolgen voor veel soorten zeedieren. \n
+&#8226;  80% van de mensen die in plattelandsgebieden van ontwikkelingslanden wonen vertrouwen op traditionele plantaardige medicijnen, dus het verlies van bossen en vegetatie kan verwoestend zijn voor hun gemeenschappen. \n
+    </string>
+    <string name="helpMee">
+&#8226;  Gebruik duurzamer vervoer - lopen, fietsen of openbaar vervoer, in plaats van auto\'s. \n
+&#8226;  Steun en fondsenwerving voor goede doelen die ontbossing bestrijden, bijv. <a href="https://www.wwf.org.uk/">https://www.wwf.org.uk/</a> \n
+&#8226;  Koop hout alleen uit duurzame bronnen en vraag de verkoper of zijn voorraad uit duurzame bronnen komt. \n
+&#8226;  Schrijf naar lokale en nationale politici om maatregelen tegen klimaatverandering te ondersteunen. \n
+&#8226;  Vertel familie, vrienden en anderen om met ons mee te doen en hetzelfde te doen. \n
+    </string>
+    <string name="bron">
+        Bron: <a href="https://whatcanyoudo.earth/tag/sdg-15/">https://whatcanyoudo.earth/tag/sdg-15/</a>
+    </string>
 
 </resources>

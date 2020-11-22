@@ -99,6 +99,8 @@ public class HomeFragment extends Fragment{
         // afstand textView
         textAfstand = view.findViewById(R.id.textAfstand);
         //getLocation
+
+
         locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -111,7 +113,9 @@ public class HomeFragment extends Fragment{
                     Manifest.permission.ACCESS_FINE_LOCATION
             },100);
         }
-        getLocation();
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            getLocation();
+        }
 
         //calculate distance tussen userLocation en dier
         if (calculateDistance(dier, userLocation)!=0){
@@ -161,7 +165,9 @@ public class HomeFragment extends Fragment{
         for (Dier value : dieren) {
             if (value.isSelected()) {
                 textNaam.setText(("Diersoort: " + value.getNaam()));
-                textAfstand.setText(("Afstand: " + String.format("%.2f", calculateDistance(value, userLocation)) + " km"));
+                if (calculateDistance(dier, userLocation)!=0) {
+                    textAfstand.setText(("Afstand: " + String.format("%.2f", calculateDistance(value, userLocation)) + " km"));
+                }
                 dier = value;
             }
         }

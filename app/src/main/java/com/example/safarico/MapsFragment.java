@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,9 @@ public class MapsFragment extends Fragment {
                         Manifest.permission.ACCESS_FINE_LOCATION
                 },100);
             }
-            googleMap.setMyLocationEnabled(true);
+            if (googleMap.isMyLocationEnabled()){
+                googleMap.setMyLocationEnabled(true);
+            }
 
             CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(dieren[0].getLatitude(), dieren[0].getLongitude())).zoom(10.5f).build();
             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
