@@ -47,10 +47,6 @@ public class HomeFragment extends Fragment{
     //map
     Dier dier;
     public static Dier[] dieren = {new Dier("olifant", 52.142845, 4.441977, false), new Dier("aap", 52.242845, 4.501977, false)};
-    public double[] userLatLong;
-//    mapsFragment;
-
-
 
     public HomeFragment() {
         // Required empty public constructor
@@ -95,8 +91,6 @@ public class HomeFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        //kaart
-
         //dier voorbeeld
         dier = dieren[0];
         //diernaam textView
@@ -109,7 +103,6 @@ public class HomeFragment extends Fragment{
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NotNull Location location) {
-//                Toast.makeText(getActivity(), "mobile location is in listener"+location,Toast.LENGTH_SHORT);
                 userLocation = location;
             }
         };
@@ -159,20 +152,17 @@ public class HomeFragment extends Fragment{
             locationManager = (LocationManager) getParentFragment().requireActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
             userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//            userLatLong = new double[] {userLocation.getLatitude(), userLocation.getLongitude()};
-//            Toast.makeText(getActivity(), ""+userLocation.getLongitude()+", "+userLocation.getLatitude(), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     @SuppressLint("DefaultLocale")
     public void updateSelected(){
-        for (int i=0; i<dieren.length; i++){
-            if (dieren[i].isSelected()){
-                textNaam.setText(("Diersoort: "+dieren[i].getNaam()));
-                textAfstand.setText(("Afstand: "+String.format("%.2f", calculateDistance(dieren[i], userLocation))+" km"));
-                dier=dieren[i];
+        for (Dier value : dieren) {
+            if (value.isSelected()) {
+                textNaam.setText(("Diersoort: " + value.getNaam()));
+                textAfstand.setText(("Afstand: " + String.format("%.2f", calculateDistance(value, userLocation)) + " km"));
+                dier = value;
             }
         }
     }
