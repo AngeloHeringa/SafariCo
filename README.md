@@ -93,7 +93,7 @@ mail nog toevoegen?
 - Martijn Gorissen 19099371
 - John Bermudez Ospina 20085095
 - Mike Rietveldt
-- Dzemal Velic
+- Dzemal Velic 20179936
 - Jeevan Hoogenhout
 
 Begeleid door:
