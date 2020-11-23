@@ -26,8 +26,6 @@ public class MapsFragment extends Fragment {
     //dier
     Dier[] dieren = HomeFragment.dieren;
     String selected;
-    //user
-
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 

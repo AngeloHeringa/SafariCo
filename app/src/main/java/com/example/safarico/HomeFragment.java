@@ -22,9 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
 public class HomeFragment extends Fragment{
@@ -40,7 +38,7 @@ public class HomeFragment extends Fragment{
     LocationListener locationListener;
     Location userLocation;
 
-    //map
+    //voorbeeld dieren, uiteindelijk vervangen met data uit database
     Dier dier;
     public static Dier[] dieren = {new Dier("olifant", 52.142845, 4.441977, false), new Dier("aap", 52.202845, 4.501977, false)};
 
@@ -99,8 +97,6 @@ public class HomeFragment extends Fragment{
         // afstand textView
         textAfstand = view.findViewById(R.id.textAfstand);
         //getLocation
-
-
         locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
@@ -125,7 +121,6 @@ public class HomeFragment extends Fragment{
         }
 
         //popup button
-        //popup
         Button popupButton = view.findViewById(R.id.popupButton);
         popupButton.setOnClickListener(v -> showDialog(v, dier, getResources()));
 
@@ -184,7 +179,7 @@ public class HomeFragment extends Fragment{
                 Math.cos(Math.toRadians(dier.getLongitude() - userLocation.getLongitude())));
 
             return ((Math.toDegrees(Math.acos(afstand)) * 69.09 * 1.6093));
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
             return 0;
         }
