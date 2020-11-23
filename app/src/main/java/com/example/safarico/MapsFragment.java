@@ -39,9 +39,9 @@ public class MapsFragment extends Fragment {
                         Manifest.permission.ACCESS_FINE_LOCATION
                 },100);
             }
-            if (googleMap.isMyLocationEnabled()){
-                googleMap.setMyLocationEnabled(true);
-            }
+            googleMap.setMyLocationEnabled(true);
+
+
 
             CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(dieren[0].getLatitude(), dieren[0].getLongitude())).zoom(10.5f).build();
             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));

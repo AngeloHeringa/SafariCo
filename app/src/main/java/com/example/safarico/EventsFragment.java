@@ -2,21 +2,14 @@ package com.example.safarico;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Objects;
 
 public class EventsFragment extends Fragment {
 
@@ -35,6 +28,10 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //titel
+        Objects.requireNonNull(((MainActivity) requireActivity()).getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
+
     }
 
     @SuppressLint("DefaultLocale")
@@ -65,7 +62,7 @@ public class EventsFragment extends Fragment {
                     input.setBackgroundColor(this.getResources().getColor(R.color.colorAccent2));
                 }
                 input.setTextSize(25);
-                input.setText((" "+(event.getTijd().getHours()+":"+String.format("%02d",(event.getTijd().getMinutes()))+"  "+event.getOmschrijving())));
+                input.setText((" "+(String.format("%02d",event.getTijd().getHours())+":"+String.format("%02d",(event.getTijd().getMinutes()))+"  "+event.getOmschrijving())));
                 lijst.addView(input);
             }
         }
