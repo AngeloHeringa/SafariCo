@@ -28,7 +28,7 @@
   * [Tools](#tools)
 * [Instructies](#instructies)
   * [Benodigheden](#benodigheden)
-  * [Instalatie](#instalatie)
+  * [Installatie](#installatie)
 * [gebruik](#gebruik)
 * [Contact](#contact)
 * [Bronvermelding](#Bronvermelding)
@@ -70,7 +70,7 @@ Instructies toevoegen over hoe je de app download
 
 Benodigde software toevoegen
 
-### Instalatie
+### Installatie
 
 1. instructies toevoegen
 
