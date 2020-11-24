@@ -15,8 +15,9 @@ import java.util.Objects;
 public class EventsFragment extends Fragment {
 
     //voorbeeld eventList, uiteindelijk importeren uit DB
-    Event[] eventLijst= {new Event("dierentuin1", "olifanten voeren", Calendar.getInstance().getTime(), "olifant"), new Event("dierentuin1", "apen voeren", Calendar.getInstance().getTime(), "aap")};
+    Event[] eventLijst= {new Event("dierentuin1", "penguins voeren", Calendar.getInstance().getTime(), "penguin"), new Event("dierentuin1", "olifanten voeren", Calendar.getInstance().getTime(), "olifant"), new Event("dierentuin2", "apen voeren", Calendar.getInstance().getTime(), "aap")};
 
+    Dier[] dieren = HomeFragment.dieren;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -44,7 +45,7 @@ public class EventsFragment extends Fragment {
         //titel tekst
         TextView titel = view.findViewById(R.id.parkNaam);
         //tijdelijke naam maar uiteindelijk moet hij de dichtsbijzijnde vinden uit de DB vergeleken met de locatie
-        String huidigePark = "dierentuin1";
+        String huidigePark = getSelectedPark();
         titel.setText(("Agenda voor "+huidigePark));
         //searchBar
         SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
@@ -95,6 +96,17 @@ public class EventsFragment extends Fragment {
                 lijst.addView(input);
             }
         }
+    }
+
+    //return selected dier
+    private String getSelectedPark(){
+        String naam = "";
+        for (Dier dier : dieren){
+            if (dier.isSelected()){
+                naam = dier.getLocatieNaam();
+            }
+        }
+        return naam;
     }
 
 }

@@ -4,10 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,6 @@ public class MapsFragment extends Fragment {
     String selected;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
-
         @Override
         public void onMapReady(GoogleMap googleMap) {
             googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
@@ -38,8 +35,6 @@ public class MapsFragment extends Fragment {
                 },100);
             }
             googleMap.setMyLocationEnabled(true);
-
-
 
             CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(dieren[0].getLatitude(), dieren[0].getLongitude())).zoom(10.5f).build();
             googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -65,7 +60,6 @@ public class MapsFragment extends Fragment {
                     return false;
                 }
             });
-
         }
     };
 

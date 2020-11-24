@@ -40,11 +40,7 @@ public class HomeFragment extends Fragment{
 
     //voorbeeld dieren, uiteindelijk vervangen met data uit database
     Dier dier;
-    public static Dier[] dieren = {new Dier("olifant", 52.142845, 4.441977, false), new Dier("aap", 52.202845, 4.501977, false)};
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+    public static Dier[] dieren = {new Dier("penguin", 52.148845, 4.440977, false, "dierentuin1"), new Dier("olifant", 52.142845, 4.441977, false, "dierentuin1"), new Dier("aap", 52.202845, 4.501977, false, "dierentuin2")};
 
     public static HomeFragment newInstance(String param1, String param2) {
         return new HomeFragment();
@@ -57,6 +53,7 @@ public class HomeFragment extends Fragment{
         Objects.requireNonNull(((MainActivity) requireActivity()).getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
     }
 
+    //stel popup in
     public void showDialog(View v, Dier dier, Resources res) {
         dialog = new Dialog(v.getContext());
         dialog.setContentView(R.layout.popup_window);
@@ -79,7 +76,6 @@ public class HomeFragment extends Fragment{
             @Override
             public void onClick(View v) {dialog.dismiss();}
         });
-
         dialog.show();
     }
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
@@ -88,14 +84,18 @@ public class HomeFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        requireActivity().setTitle(getResources().getString(R.string.app_name));
+
         //dier voorbeeld
         dier = dieren[0];
+        dier.setSelected(true);
+
         //diernaam textView
         textNaam = view.findViewById(R.id.textNaam);
         textNaam.setText("Diersoort: "+dier.getNaam());
+
         // afstand textView
         textAfstand = view.findViewById(R.id.textAfstand);
+
         //getLocation
         locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -122,9 +122,11 @@ public class HomeFragment extends Fragment{
 
         //popup button
         Button popupButton = view.findViewById(R.id.popupButton);
-        popupButton.setOnClickListener(v -> showDialog(v, dier, getResources()));
+        popupButton.setOnClickListener(v -> {
+            showDialog(v, dier, getResources());
+        });
 
-        //map
+        //achtergrond process voor updates van welk dier is geselecteerd
         Handler handler = new Handler();
         Runnable update = new Runnable(){
             @Override
@@ -148,14 +150,15 @@ public class HomeFragment extends Fragment{
     @SuppressLint("MissingPermission")
     private void getLocation() {
         try {
-            assert getParentFragment() != null;
-            locationManager = (LocationManager) getParentFragment().requireActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            locationManager = (LocationManager) requireActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, locationListener);
             userLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    //update welk dier is geselecteerd
     @SuppressLint("DefaultLocale")
     public void updateSelected(){
         for (Dier value : dieren) {
@@ -177,7 +180,6 @@ public class HomeFragment extends Fragment{
                 Math.cos(Math.toRadians(dier.getLatitude())) *
                 Math.cos(Math.toRadians(userLocation.getLatitude())) *
                 Math.cos(Math.toRadians(dier.getLongitude() - userLocation.getLongitude())));
-
             return ((Math.toDegrees(Math.acos(afstand)) * 69.09 * 1.6093));
         } catch (Exception e){
             e.printStackTrace();

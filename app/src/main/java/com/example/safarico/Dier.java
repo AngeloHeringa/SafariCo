@@ -5,12 +5,22 @@ public class Dier {
     private double latitude;
     private double longitude;
     private boolean selected;
+    private String locatieNaam;
 
-    public Dier(String naam, double latitude, double longitude, boolean selected) {
+    public Dier(String naam, double latitude, double longitude, boolean selected, String locatieNaam) {
         this.naam = naam;
         this.latitude = latitude;
         this.longitude = longitude;
         this.selected = selected;
+        this.locatieNaam = locatieNaam;
+    }
+
+    public String getLocatieNaam() {
+        return locatieNaam;
+    }
+
+    public void setLocatieNaam(String locatieNaam) {
+        this.locatieNaam = locatieNaam;
     }
 
     public boolean isSelected() {
