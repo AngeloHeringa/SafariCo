@@ -66,7 +66,6 @@ public class HomeFragment extends Fragment{
         dialog.getWindow().setAttributes(lp);
 
         //inhoud
-        LinearLayout dierContainer = dialog.findViewById(R.id.dierContainer);
         ImageView image = dialog.findViewById(R.id.dierFoto);
         image.setImageDrawable(ResourcesCompat.getDrawable(res, res.getIdentifier(dier.getNaam(), "drawable", requireActivity().getPackageName()), res.newTheme()));
         TextView text = dialog.findViewById(R.id.textNaamDialog);
