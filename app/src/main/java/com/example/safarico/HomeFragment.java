@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
@@ -31,7 +30,7 @@ public class HomeFragment extends Fragment{
     TextView textAfstand;
 
     //popup
-    private Dialog dialog;
+    Dialog dialog;
 
     //Location
     LocationManager locationManager;
@@ -39,8 +38,8 @@ public class HomeFragment extends Fragment{
     Location userLocation;
 
     //voorbeeld dieren, uiteindelijk vervangen met data uit database
-    Dier dier;
-    public static Dier[] dieren = {new Dier("penguin", 52.148845, 4.440977, false, "dierentuin1"), new Dier("olifant", 52.142845, 4.441977, false, "dierentuin1"), new Dier("aap", 52.202845, 4.501977, false, "dierentuin2")};
+    public static Dier[] dieren = MainActivity.dieren;
+    Dier selectedDier = dieren[0];
 
     public static HomeFragment newInstance(String param1, String param2) {
         return new HomeFragment();
@@ -66,6 +65,8 @@ public class HomeFragment extends Fragment{
         dialog.getWindow().setAttributes(lp);
 
         //inhoud
+        TextView inhoud = dialog.findViewById(R.id.info);
+        inhoud.setText(genereerInfo(selectedDier, inhoud));
         ImageView image = dialog.findViewById(R.id.dierFoto);
         image.setImageDrawable(ResourcesCompat.getDrawable(res, res.getIdentifier(dier.getNaam(), "drawable", requireActivity().getPackageName()), res.newTheme()));
         TextView text = dialog.findViewById(R.id.textNaamDialog);
@@ -77,6 +78,43 @@ public class HomeFragment extends Fragment{
         });
         dialog.show();
     }
+
+    //inhoud bij popup voor het geselecteerde dier
+    private String genereerInfo(Dier dier, TextView t) {
+        String dierNaam = dier.getNaam();
+        Diersoort[] diersoorten = MainActivity.diersoorten;
+        StringBuilder oorzaakText = new StringBuilder();
+        String output = "lege text";
+        for (Diersoort diersoort : diersoorten) {
+            if (diersoort.getNaam().equals(dierNaam)) {
+                for (String oorzaak : diersoort.getOorzaak()) {
+                    if (oorzaak.equals("jagers")) {
+                        oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat er illegaal op wordt gejaagd door stropers.");
+                    }
+                    if (oorzaak.equals("vissers")) {
+                        oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat er illegaal wordt gevist op dit diersoort.");
+                    }
+                    if (oorzaak.equals("broeikas")) {
+                        oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat de aarde langzaam aan het opwarmen is.");
+                    }
+                    if (oorzaak.equals("leefgebied")) {
+                        oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat het leefgebied van dit diersoort aangetast wordt door mensen.");
+                    }
+                }
+                output = (
+                        "De diersoort " + dierNaam +
+                                " is " + (diersoort.isBedreigd() ? "" : "niet ") + "bedreigd. " +
+                                "Er leven momenteel " + (diersoort.getCount() >= 1000000 ? diersoort.getCount() / 1000000 + " miljoen" : diersoort.getCount()) + " van dit diersoort op aarde.\n" +
+                                oorzaakText
+                        //waarom bedreigd, oorzaak
+                        //
+                );
+            }
+        }
+
+        return output;
+    }
+
     @SuppressLint({"DefaultLocale", "SetTextI18n"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,13 +122,19 @@ public class HomeFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //dier voorbeeld
-        dier = dieren[0];
-        dier.setSelected(true);
+        //dier voorbeeld, uiteindelijk de meest dichtbije automatisch pakken
+//        dier = dieren[0];
+
+        if (userLocation != null){
+            updateDichtbij();
+        }
+
+        selectedDier.setSelected(true);
+
 
         //diernaam textView
         textNaam = view.findViewById(R.id.textNaam);
-        textNaam.setText("Diersoort: "+dier.getNaam());
+        textNaam.setText("Diersoort: "+selectedDier.getNaam());
 
         // afstand textView
         textAfstand = view.findViewById(R.id.textAfstand);
@@ -113,8 +157,8 @@ public class HomeFragment extends Fragment{
         }
 
         //calculate distance tussen userLocation en dier
-        if (calculateDistance(dier, userLocation)!=0){
-            textAfstand.setText("Afstand: "+String.format("%.2f", calculateDistance(dier, userLocation))+" km");
+        if (calculateDistance(selectedDier, userLocation)!=0){
+            textAfstand.setText("Afstand: "+String.format("%.2f", calculateDistance(selectedDier, userLocation))+" km");
         }else{
             textAfstand.setText("Locatie niet beschikbaar");
         }
@@ -122,7 +166,7 @@ public class HomeFragment extends Fragment{
         //popup button
         Button popupButton = view.findViewById(R.id.popupButton);
         popupButton.setOnClickListener(v -> {
-            showDialog(v, dier, getResources());
+            showDialog(v, selectedDier, getResources());
         });
 
         //achtergrond process voor updates van welk dier is geselecteerd
@@ -163,10 +207,12 @@ public class HomeFragment extends Fragment{
         for (Dier value : dieren) {
             if (value.isSelected()) {
                 textNaam.setText(("Diersoort: " + value.getNaam()));
-                if (calculateDistance(dier, userLocation)!=0) {
-                    textAfstand.setText(("Afstand: " + String.format("%.2f", calculateDistance(value, userLocation)) + " km"));
+                if (calculateDistance(selectedDier, userLocation)>1) {
+                    textAfstand.setText(String.format("Afstand: %.2f km", calculateDistance(value, userLocation)));
+                }else if(calculateDistance(selectedDier, userLocation)!=0){
+                    textAfstand.setText(String.format("Afstand: %3.0f meter", (calculateDistance(value, userLocation)*1000)));
                 }
-                dier = value;
+                selectedDier = value;
             }
         }
     }
@@ -184,5 +230,18 @@ public class HomeFragment extends Fragment{
             e.printStackTrace();
             return 0;
         }
+    }
+
+    //selecteer dichtbije dier
+    private void updateDichtbij(){
+        selectedDier.setSelected(false);
+        double afstand = 0;
+        for (Dier dier : dieren){
+            if (calculateDistance(dier, userLocation) > afstand){
+                afstand = calculateDistance(dier, userLocation);
+                selectedDier = dier;
+            }
+        }
+        selectedDier.setSelected(true);
     }
 }

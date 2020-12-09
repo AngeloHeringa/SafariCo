@@ -15,7 +15,7 @@ import java.util.Objects;
 public class EventsFragment extends Fragment {
 
     //voorbeeld eventList, uiteindelijk importeren uit DB
-    Event[] eventLijst= {new Event("dierentuin1", "penguins voeren", Calendar.getInstance().getTime(), "penguin"), new Event("dierentuin1", "olifanten voeren", Calendar.getInstance().getTime(), "olifant"), new Event("dierentuin2", "apen voeren", Calendar.getInstance().getTime(), "aap")};
+    Event[] eventLijst = MainActivity.eventLijst;
 
     Dier[] dieren = HomeFragment.dieren;
 
@@ -30,10 +30,8 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //titel
         Objects.requireNonNull(((MainActivity) requireActivity()).getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
-
     }
 
     @SuppressLint("DefaultLocale")
