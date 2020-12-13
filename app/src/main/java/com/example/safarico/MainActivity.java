@@ -7,6 +7,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.sql.SQLException;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
