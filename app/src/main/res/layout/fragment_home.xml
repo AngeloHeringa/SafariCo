@@ -6,52 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
+        tools:ignore="HardcodedText"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/bottomView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
+            android:background="@color/colorAccent"
+            android:orientation="vertical"
+            android:padding="16dp"
             android:text="@string/home_fragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="vertical"
-            android:padding="16dp"
-            >
+            app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:textSize="25sp"
-                android:layout_marginBottom="16dp"
                 android:id="@+id/textNaam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/naam" />
+                android:layout_marginBottom="16dp"
+                android:text="@string/naam"
+                android:textColor="@color/text"
+                android:textSize="25sp" />
 
             <TextView
-                android:textSize="25sp"
-                android:layout_marginBottom="16dp"
                 android:id="@+id/textAfstand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/afstand" />
+                android:layout_marginBottom="16dp"
+                android:text="@string/afstand"
+                android:textColor="@color/text"
+                android:textSize="25sp" />
 
             <Button
-                android:textSize="25sp"
-                android:id="@+id/button"
+                android:id="@+id/popupButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ga lekker slapen met je info" />
+                android:background="@color/colorPrimary"
+                android:text="Meer info"
+                android:textColor="@color/text"
+                android:textSize="25sp" />
         </LinearLayout>
 
+        <fragment
+            android:id="@+id/map"
+            android:name="com.example.safarico.MapsFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottomView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="FragmentTagUsage" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

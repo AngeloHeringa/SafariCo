@@ -1,14 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HelpFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/help_fragment" />
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent2"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="8sp"
+            android:text="Wat is het probleem?"
+            android:textColor="@color/text"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:lineSpacingExtra="8sp"
+            android:padding="8sp"
+            android:text="@string/feiten"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="8sp"
+            android:text="Wat kan jij doen?"
+            android:textColor="@color/text"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+        <TextView
+            android:id="@+id/watDoen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:lineSpacingExtra="8sp"
+            android:padding="8sp"
+            android:text="@string/helpMee"
+            android:textColorLink="@color/text"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/bronLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="false"
+            android:linksClickable="true"
+            android:padding="8dp"
+            android:text="@string/bron"
+            android:textColor="@color/text"
+            android:textSize="18sp" />
+    </LinearLayout>
+</ScrollView>

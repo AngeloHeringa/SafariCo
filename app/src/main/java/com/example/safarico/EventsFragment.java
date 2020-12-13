@@ -1,64 +1,110 @@
 package com.example.safarico;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
+import java.util.Calendar;
+import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EventsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EventsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    //voorbeeld eventList, uiteindelijk importeren uit DB
+    Event[] eventLijst = MainActivity.eventLijst;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Dier[] dieren = HomeFragment.dieren;
 
     public EventsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EventsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static EventsFragment newInstance(String param1, String param2) {
-        EventsFragment fragment = new EventsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        return new EventsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        //titel
+        Objects.requireNonNull(((MainActivity) requireActivity()).getSupportActionBar()).setTitle(getResources().getString(R.string.app_name));
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_events, container, false);
+        View view = inflater.inflate(R.layout.fragment_events, container, false);
+        //titel tekst
+        TextView titel = view.findViewById(R.id.parkNaam);
+        //tijdelijke naam maar uiteindelijk moet hij de dichtsbijzijnde vinden uit de DB vergeleken met de locatie
+        String huidigePark = getSelectedPark();
+        titel.setText(("Agenda voor "+huidigePark));
+        //searchBar
+        SearchView searchView = (SearchView) view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String query = String.valueOf(searchView.getQuery());
+                ViewGroup viewGroup = (view.findViewById(R.id.eventLijst));
+                for(int i = 0; i < ((ViewGroup) viewGroup).getChildCount(); i++) {
+                    View nextChild = ((ViewGroup) viewGroup).getChildAt(i);
+                    nextChild.setVisibility(View.GONE);
+                }
+                updateoutput(view, query, huidigePark);
+                return false;
+            }
+        });
+        updateoutput(view, "", huidigePark);
+
+        return view;
     }
+    @SuppressLint("DefaultLocale")
+    private void updateoutput(View view, String query, String huidigePark){
+        //alle inputs van overeenkomende park ( event.getPark().equals(huidigePark) )
+        int i=0;
+        for (Event event: eventLijst){
+            if ((Calendar.getInstance().getTime().getDate() == (event.getTijd().getDate()))&& event.getPark().equals(huidigePark)){
+                LinearLayout lijst = view.findViewById(R.id.eventLijst);
+                final TextView input = new TextView(view.getContext());
+                if (query.equals("")||event.getDiersoort().startsWith(query)){
+                    input.setVisibility(View.VISIBLE);
+                }else{
+                    input.setVisibility(View.GONE);
+                }
+                i++;
+                if (i%2==0){
+                    input.setBackgroundColor(this.getResources().getColor(R.color.colorAccent));
+                }
+                else{
+                    input.setBackgroundColor(this.getResources().getColor(R.color.colorAccent2));
+                }
+                input.setTextSize(25);
+                input.setText((" "+(String.format("%02d",event.getTijd().getHours())+":"+String.format("%02d",(event.getTijd().getMinutes()))+"  "+event.getOmschrijving())));
+                lijst.addView(input);
+            }
+        }
+    }
+
+    //return selected dier
+    private String getSelectedPark(){
+        String naam = "";
+        for (Dier dier : dieren){
+            if (dier.isSelected()){
+                naam = dier.getLocatieNaam();
+            }
+        }
+        return naam;
+    }
+
 }
