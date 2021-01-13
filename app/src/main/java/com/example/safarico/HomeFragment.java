@@ -32,13 +32,19 @@ public class HomeFragment extends Fragment{
     //popup
     Dialog dialog;
 
+    //runnable
+    Handler handler;
+    Runnable update;
+    boolean active = true;
+
     //Location
     LocationManager locationManager;
     LocationListener locationListener;
-    Location userLocation;
+    public static Location userLocation;
 
-    //voorbeeld dieren, uiteindelijk vervangen met data uit database
+    //dieren uit database
     public static Dier[] dieren = MainActivity.dieren;
+
     Dier selectedDier = dieren[0];
 
     public static HomeFragment newInstance(String param1, String param2) {
@@ -53,6 +59,7 @@ public class HomeFragment extends Fragment{
     }
 
     //stel popup in
+    @SuppressLint("SetTextI18n")
     public void showDialog(View v, Dier dier, Resources res) {
         dialog = new Dialog(v.getContext());
         dialog.setContentView(R.layout.popup_window);
@@ -66,9 +73,18 @@ public class HomeFragment extends Fragment{
 
         //inhoud
         TextView inhoud = dialog.findViewById(R.id.info);
-        inhoud.setText(genereerInfo(selectedDier, inhoud));
+        try {
+            inhoud.setText(genereerInfo(selectedDier, inhoud));
+        }catch(NullPointerException e){
+            e.printStackTrace();
+            inhoud.setText(selectedDier.getNaam()+" is geen bestaand Diersoort");
+        }
         ImageView image = dialog.findViewById(R.id.dierFoto);
-        image.setImageDrawable(ResourcesCompat.getDrawable(res, res.getIdentifier(dier.getNaam(), "drawable", requireActivity().getPackageName()), res.newTheme()));
+        try {
+            image.setImageDrawable(ResourcesCompat.getDrawable(res, res.getIdentifier(dier.getNaam().toLowerCase(), "drawable", requireActivity().getPackageName()), res.newTheme()));
+        }catch (Resources.NotFoundException e){
+            e.printStackTrace();
+        }
         TextView text = dialog.findViewById(R.id.textNaamDialog);
         text.setText(("Diersoort: "+dier.getNaam()));
         Button sluitButton = dialog.findViewById(R.id.sluitButton);
@@ -81,37 +97,80 @@ public class HomeFragment extends Fragment{
 
     //inhoud bij popup voor het geselecteerde dier
     private String genereerInfo(Dier dier, TextView t) {
-        String dierNaam = dier.getNaam();
+        String dierNaam = dier.getNaam().toLowerCase();
         Diersoort[] diersoorten = MainActivity.diersoorten;
         StringBuilder oorzaakText = new StringBuilder();
+        StringBuilder dierInfo = new StringBuilder();
         String output = "lege text";
-        for (Diersoort diersoort : diersoorten) {
-            if (diersoort.getNaam().equals(dierNaam)) {
-                for (String oorzaak : diersoort.getOorzaak()) {
-                    if (oorzaak.equals("jagers")) {
-                        oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat er illegaal op wordt gejaagd door stropers.");
+        if (diersoorten != null) {
+            for (Diersoort diersoort : diersoorten) {
+                if (diersoort.getNaam().toLowerCase().equals(dierNaam)) {
+                    //soort dier
+                    String[] zoogdieren = {"olifant", "aap", "baviaan", "giraffe", "tijger", "neushoorn"};
+                    for (String zoogdier : zoogdieren){
+                        if (diersoort.getNaam().toLowerCase().equals(zoogdier)){
+                            dierInfo.append("Dit diersoort is een zoogdier. ");
+                        }
                     }
-                    if (oorzaak.equals("vissers")) {
-                        oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat er illegaal wordt gevist op dit diersoort.");
+                    String[] vogels = {"penguin"};
+                    for (String vogel : vogels){
+                        if (diersoort.getNaam().toLowerCase().equals(vogel)){
+                            dierInfo.append("Dit diersoort is een vogel. ");
+                        }
                     }
-                    if (oorzaak.equals("broeikas")) {
-                        oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat de aarde langzaam aan het opwarmen is.");
+                    String[] reptielen = {"krokodil"};
+                    for (String reptiel : reptielen){
+                        if (diersoort.getNaam().toLowerCase().equals(reptiel)){
+                            dierInfo.append("Dit diersoort is een reptiel. ");
+                        }
                     }
-                    if (oorzaak.equals("leefgebied")) {
-                        oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat het leefgebied van dit diersoort aangetast wordt door mensen.");
+
+                    //eet gedrag
+                    String[] herbivoren = {"olifant", "giraffe", "neushoorn"};
+                    for (String herbivoor : herbivoren){
+                        if (diersoort.getNaam().toLowerCase().equals(herbivoor)){
+                            dierInfo.append("Omdat dit een herbivoor is eet het alleen planten.\n");
+                        }
                     }
+                    String[] carnivoren = {"tijger", "pernguin", "krokodil"};
+                    for (String carnivoor : carnivoren){
+                        if (diersoort.getNaam().toLowerCase().equals(carnivoor)){
+                            dierInfo.append("Omdat dit een carnivoor is eet het alleen vlees.\n");
+                        }
+                    }
+                    String[] omnivoren = {"aap", "gorilla", "baviaan"};
+                    for (String omnivoor : omnivoren){
+                        if (diersoort.getNaam().toLowerCase().equals(omnivoor)){
+                            dierInfo.append("Omdat dit een omnivoor is eet het vlees en planten.\n");
+                        }
+                    }
+
+                    //bedreiging info
+                    for (String oorzaak : diersoort.getOorzaak().split(" ")) {
+                        if (oorzaak.equals("jagers")) {
+                            oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat er illegaal op wordt gejaagd door stropers.");
+                        }
+                        if (oorzaak.equals("vissers")) {
+                            oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat er illegaal wordt gevist op dit diersoort.");
+                        }
+                        if (oorzaak.equals("broeikas")) {
+                            oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" door de degradatie van het leefgebied van dit diersoort door de opwarming van de aarde.");
+                        }
+                        if (oorzaak.equals("leefgebied")) {
+                            oorzaakText.append(oorzaakText.toString().equals("") ? ("De rede dat de " + dierNaam + " bedreigd is, is") : (" Ook wordt de " + dierNaam + " bedreigd")).append(" omdat het leefgebied van dit diersoort aangetast wordt door mensen.");
+                        }
+                    }
+                    output = (
+                            dierInfo+
+                            "De diersoort " + dierNaam +
+                                    " is " + (diersoort.isBedreigd() ? "" : "niet ") + "bedreigd. " +
+                                    "Er leven momenteel " + (diersoort.getCount() >= 1000000 ? diersoort.getCount() / 1000000 + " miljoen" : diersoort.getCount()) + " van dit diersoort op aarde.\n" +
+                                    oorzaakText
+                            //waarom bedreigd, oorzaak
+                    );
                 }
-                output = (
-                        "De diersoort " + dierNaam +
-                                " is " + (diersoort.isBedreigd() ? "" : "niet ") + "bedreigd. " +
-                                "Er leven momenteel " + (diersoort.getCount() >= 1000000 ? diersoort.getCount() / 1000000 + " miljoen" : diersoort.getCount()) + " van dit diersoort op aarde.\n" +
-                                oorzaakText
-                        //waarom bedreigd, oorzaak
-                        //
-                );
             }
         }
-
         return output;
     }
 
@@ -122,16 +181,6 @@ public class HomeFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        //dier voorbeeld, uiteindelijk de meest dichtbije automatisch pakken
-//        dier = dieren[0];
-
-        if (userLocation != null){
-            updateDichtbij();
-        }
-
-        selectedDier.setSelected(true);
-
-
         //diernaam textView
         textNaam = view.findViewById(R.id.textNaam);
         textNaam.setText("Diersoort: "+selectedDier.getNaam());
@@ -139,12 +188,14 @@ public class HomeFragment extends Fragment{
         // afstand textView
         textAfstand = view.findViewById(R.id.textAfstand);
 
-        //getLocation
+        //getUserLocation
         locationManager = (LocationManager) view.getContext().getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NotNull Location location) {
                 userLocation = location;
+                //select dichtijste dier
+                updateDichtbij();
             }
         };
         if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -174,13 +225,27 @@ public class HomeFragment extends Fragment{
         Runnable update = new Runnable(){
             @Override
             public void run() {
-                updateSelected();
+                if (active){
+                    updateSelected();
+                }
                 handler.postDelayed(this, 100);
             }
         };
         update.run();
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        active = false;
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        active = true;
+        super.onResume();
     }
 
     //user permission
@@ -237,7 +302,7 @@ public class HomeFragment extends Fragment{
         selectedDier.setSelected(false);
         double afstand = 0;
         for (Dier dier : dieren){
-            if (calculateDistance(dier, userLocation) > afstand){
+            if (calculateDistance(dier, userLocation) < afstand){
                 afstand = calculateDistance(dier, userLocation);
                 selectedDier = dier;
             }

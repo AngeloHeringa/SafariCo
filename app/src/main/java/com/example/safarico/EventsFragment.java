@@ -36,8 +36,7 @@ public class EventsFragment extends Fragment {
 
     @SuppressLint("DefaultLocale")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_events, container, false);
         //titel tekst
@@ -69,29 +68,32 @@ public class EventsFragment extends Fragment {
 
         return view;
     }
+
     @SuppressLint("DefaultLocale")
     private void updateoutput(View view, String query, String huidigePark){
         //alle inputs van overeenkomende park ( event.getPark().equals(huidigePark) )
         int i=0;
-        for (Event event: eventLijst){
-            if ((Calendar.getInstance().getTime().getDate() == (event.getTijd().getDate()))&& event.getPark().equals(huidigePark)){
-                LinearLayout lijst = view.findViewById(R.id.eventLijst);
-                final TextView input = new TextView(view.getContext());
-                if (query.equals("")||event.getDiersoort().startsWith(query)){
-                    input.setVisibility(View.VISIBLE);
-                }else{
-                    input.setVisibility(View.GONE);
+
+        if (eventLijst != null) {
+            for (Event event : eventLijst) {
+                if (!(Calendar.getInstance().getTime().getDate() == (event.getTijd().getDate())) && event.getPark().equals(huidigePark)) {
+                    LinearLayout lijst = view.findViewById(R.id.eventLijst);
+                    final TextView output = new TextView(view.getContext());
+                    if (query.toLowerCase().equals("") || event.getDiersoort().toLowerCase().startsWith(query)) {
+                        output.setVisibility(View.VISIBLE);
+                    } else {
+                        output.setVisibility(View.GONE);
+                    }
+                    i++;
+                    if (i % 2 == 0) {
+                        output.setBackgroundColor(this.getResources().getColor(R.color.colorAccent));
+                    } else {
+                        output.setBackgroundColor(this.getResources().getColor(R.color.colorAccent2));
+                    }
+                    output.setTextSize(25);
+                    output.setText((" " + (String.format("%02d", event.getTijd().getHours()) + ":" + String.format("%02d", (event.getTijd().getMinutes())) + "  " + event.getOmschrijving())));
+                    lijst.addView(output);
                 }
-                i++;
-                if (i%2==0){
-                    input.setBackgroundColor(this.getResources().getColor(R.color.colorAccent));
-                }
-                else{
-                    input.setBackgroundColor(this.getResources().getColor(R.color.colorAccent2));
-                }
-                input.setTextSize(25);
-                input.setText((" "+(String.format("%02d",event.getTijd().getHours())+":"+String.format("%02d",(event.getTijd().getMinutes()))+"  "+event.getOmschrijving())));
-                lijst.addView(input);
             }
         }
     }
